@@ -1,5 +1,3 @@
-import Signature from './stage'
-import Base from './base'
+import ImageEditor from "./Editor";
 
-export { Base }
-export default Signature
+export default ImageEditor;

@@ -1,16 +1,16 @@
 {
-  "name": "h5-signature",
-  "version": "0.2.10",
-  "description": "h5 signature",
+  "name": "h5-image-editor",
+  "version": "0.1.0",
+  "description": "h5 image editor",
   "main": "lib/index.js",
   "module": "es/index.js",
   "browser": "lib/index.min.js",
   "types": "index.d.ts",
   "keywords": [
-    "signature",
+    "image editor",
     "canvas",
     "html5",
-    "手写签名"
+    "图片编辑"
   ],
   "files": [
     "es",
@@ -50,6 +50,7 @@
     "webpack-dev-server": "^4.4.0"
   },
   "dependencies": {
-    "@babel/runtime": "^7.16.0"
+    "@babel/runtime": "^7.16.0",
+    "h5-signature": "^0.2.10"
   }
 }

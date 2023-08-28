@@ -1,18 +1,6 @@
-export interface IPoint {
-  x: number
-  y: number
-  t: number
-  lastX?: number
-  lastY?: number
-  color: string
-  lineWidth?: number
-}
-
-export type IMouseEvent = MouseEvent & { stageX: number; stageY: number }
 
 export interface IOptions {
-  width?: number | 'auto'
-  height?: number | 'auto'
+  url: string
   openSmooth?: boolean
   color?: string
   lineWidth?: number
@@ -21,28 +9,14 @@ export interface IOptions {
   minSpeed?: number
   scaleRatio?: number
   maxWidthDiffRate?: number
-  resizeDebounceTime?: number
   maxHistoryLength?: number
-  exportPadding?: number
-  exportMaxWidth?: number
-  exportMaxHeight?: number
   undoRedoStateChange?: (canUndo: boolean, canRedo: boolean) => void
-  onDrawStart?: (evt: IMouseEvent, prePoint: IPoint) => void
-  onDrawing?: (evt: IMouseEvent, prePoint: IPoint) => void
-  onDrawUp?: (evt: IMouseEvent, img: HTMLImageElement) => void
 }
 
 export type ConstructorOptions = IOptions & { root: HTMLElement | null }
 
-export class Base {
-  init: () => void
-  resize: () => void
-  attachEvents: () => void
-  detachEvents: () => void
-  destroy: () => void
-}
 
-export default class Signature {
+export default class ImageEditor {
   static defaultOptions: IOptions
 
   constructor(options?: ConstructorOptions)
@@ -55,9 +29,6 @@ export default class Signature {
   redo: () => void
   canUndo: () => void
   canRedo: () => void
-  getResult: (origin?: boolean) => HTMLCanvasElement | undefined
-  getRotateCanvas: (degree: -90 | 90 | -180 | 180) => HTMLCanvasElement
-  base64ToBlob: (code: string) => Blob
+  getResult: () => HTMLCanvasElement | undefined
   destroy: () => void
-  downloadFile: () => void
 }

@@ -26,7 +26,7 @@
 
 <body>
 <div class="cover">
-  <div id="container" style="width: 100%; max-width: 1000px; height: 600px;"></div>
+  <div id="container" style="width: 100%; height: 600px;"></div>
   <div style="margin: 10px 0;">
     <button id="clear">clear</button>
     <button id="undo">undo</button>
@@ -44,7 +44,6 @@
       <option value="#f90">#f90</option>
     </select>
     <button id="exportBtn">view result</button>
-    <button id="downloadBtn">download</button>
   </div>
   <img id="preview" src="" alt=""/>
 </div>
@@ -54,9 +53,8 @@
 
   var stage = new Signature.default({
     root: container,
-    // exportPadding: 5,
-    // exportMaxWidth: 300,
-    // exportMaxHeight: 300,
+    scaleRatio: 3,
+    url: 'https://dev-b10002-space.imsdom.com/ti2019120619563000010051/21/123231013014331392',
     undoRedoStateChange: function (canUndo, canRedo) {
       if (canUndo) {
         document.getElementById('undo').removeAttribute('disabled')
@@ -96,10 +94,6 @@
     if (!res) return alert('no image data')
     document.getElementById('preview').src = res.toDataURL()
     document.getElementById('preview').style.transform = `scale(${1 / window.devicePixelRatio})`
-  })
-
-  document.getElementById('downloadBtn').addEventListener('click', function () {
-    stage.downloadFile()
   })
 </script>
 
