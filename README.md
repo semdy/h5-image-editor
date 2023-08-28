@@ -20,7 +20,7 @@
 ```js
 <div style="width:300px;height:300px" id="container"></div>;
 var container = document.getElementById("container");
-new Signature.default({
+new Editor.default({
   root: container, // root dom container
   color: "#000", // draw color
   lineWidth: 8, // draw line width
@@ -76,8 +76,6 @@ query if can undo
 query if can redo
 
 #### getResult
-
-    parameters: origin [boolean]
 
 get the cropped or origin canvas dom
 
