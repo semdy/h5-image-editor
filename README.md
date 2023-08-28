@@ -1,6 +1,6 @@
 # h5-image-editor
 
-基于 canvas 的图片编辑. [online demo](https://semdy.github.io/h5-image-editor/demo)
+基于 canvas 的图片编辑. [online demo](https://semdy.github.io/h5-image-editor)
 
 ## Install
 
