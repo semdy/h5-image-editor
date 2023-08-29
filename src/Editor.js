@@ -11,6 +11,11 @@ class Editor {
     this.screenWidth = window.innerWidth || window.screen.availWidth;
     this.screenHeight = window.innerHeight || window.screen.availHeight;
     this.init();
+
+    // const log = document.getElementById("log");
+    // window.console.log = function (...args) {
+    //   log.textContent = args.join(" ");
+    // };
   }
 
   async init() {
@@ -118,6 +123,7 @@ class Editor {
         onPressMove(evt, evtObj) {
           this.endAnimation();
           this.element.translateX += evtObj.deltaX;
+          this.element.translateY += evtObj.deltaY;
           evt.preventDefault();
         },
       });
@@ -207,7 +213,7 @@ Editor.defaultOptions = {
   root: null,
   openSmooth: false,
   scaleable: true,
-  maxScale: 3,
+  maxScale: 5,
 };
 
 export default Editor;

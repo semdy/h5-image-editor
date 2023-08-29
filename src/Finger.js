@@ -56,11 +56,6 @@ export default class Finger {
     this.element.addEventListener("touchmove", this.handleMove, false);
     this.element.addEventListener("touchend", this.handleEnd, false);
     this.element.addEventListener("touchcancel", this.handleCancel, false);
-
-    const log = document.getElementById("log");
-    window.console.log = function (...args) {
-      log.textContent = args.join(" ");
-    };
   }
 
   _emitEvent(name, ...arg) {
@@ -123,11 +118,8 @@ export default class Finger {
             x: (evt.touches[1].pageX + currentX) / 2,
             y: (evt.touches[1].pageY + currentY) / 2,
           };
-          const pichLen = getLen(v);
-          const scale = pichLen / this.pinchStartLen;
-          if (preV.x < pichLen && preV.y < pichLen) {
-            this._emitEvent("onPinch", evt, { center, scale: scale });
-          }
+          const scale = getLen(v) / this.pinchStartLen;
+          this._emitEvent("onPinch", evt, { center, scale });
         }
         const angle = getRotateAngle(v, preV);
         this._emitEvent("onRotate", evt, { angle });
@@ -236,7 +228,7 @@ export default class Finger {
   }
 
   destroy() {
-    this.cancel();
+    this.handleCancel();
 
     this.element.removeEventListener("touchstart", this.handleStart);
     this.element.removeEventListener("touchmove", this.handleMove);
