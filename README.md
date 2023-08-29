@@ -29,7 +29,7 @@ new Editor.default({
   minWidth: 2, // minimize linWidth
   minSpeed: 1.5, // minimize brush move speed
   scaleRatio: window.devicePixelRatio, // canvas scale ratio
-  scaleable: true, // canvas can pinch sacaleable
+  scaleable: true, // canvas can pinch scaleable
   maxScale: 5, // max scacle by pinch
   maxWidthDiffRate: 20, // Smooth transition threshold
   maxHistoryLength: 0, // max history length, no limit if set to 0
