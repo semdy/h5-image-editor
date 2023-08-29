@@ -8,6 +8,8 @@ export interface IOptions {
   minWidth?: number
   minSpeed?: number
   scaleRatio?: number
+  scaleable?: boolean,
+  maxScale?: number,
   maxWidthDiffRate?: number
   maxHistoryLength?: number
   undoRedoStateChange?: (canUndo: boolean, canRedo: boolean) => void

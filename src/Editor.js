@@ -1,10 +1,15 @@
 import Signature from "h5-signature";
 import ImageBackdrop from "./ImageBackdrop";
 import { load } from "./loader";
+import Finger from "./Finger";
+import Transform from "./transform";
 
 class Editor {
   constructor(options = {}) {
     this.options = { ...Editor.defaultOptions, ...options };
+    this.initScale = 1;
+    this.screenWidth = window.innerWidth || window.screen.availWidth;
+    this.screenHeight = window.innerHeight || window.screen.availHeight;
     this.init();
   }
 
@@ -13,6 +18,8 @@ class Editor {
       root,
       url,
       scaleRatio,
+      scaleable,
+      maxScale,
       lineWidth,
       color,
       openSmooth,
@@ -26,18 +33,21 @@ class Editor {
     if (!root || !(root instanceof Element)) {
       throw new Error("Invalid root element.");
     }
+    this.element = document.createElement("div");
+    root.appendChild(this.element);
+
     const img = await load(url);
     this.imgWidth = img.width;
     this.imgHeight = img.height;
     const width = img.width / scaleRatio;
     const height = img.height / scaleRatio;
 
-    root.style.position = "relative";
-    root.style.width = width + "px";
-    root.style.height = height + "px";
+    this.element.style.position = "relative";
+    this.element.style.width = width + "px";
+    this.element.style.height = height + "px";
 
     this.imageBackdrop = new ImageBackdrop({
-      root,
+      root: this.element,
       scaleRatio,
       width,
       height,
@@ -45,7 +55,7 @@ class Editor {
     this.imageBackdrop.init();
     this.imageBackdrop.drawImage(img);
     this.drawInstance = new Signature({
-      root,
+      root: this.element,
       scaleRatio,
       width,
       height,
@@ -63,6 +73,71 @@ class Editor {
     drawElement.style.position = "absolute";
     drawElement.style.left = "0";
     drawElement.style.top = "0";
+
+    if (scaleable) {
+      Transform(this.element);
+
+      this.finger = new Finger(this.element, {
+        context: this,
+        maxScale,
+        onMultipointStart() {
+          this.initScale = this.element.scaleX;
+        },
+        onPinch(evt, evtObj) {
+          this.element.style.webkitTransition = "cubic-bezier(.25,.01,.25,1)";
+
+          const { originX, originY } = this.element,
+            originX2 =
+              evtObj.center.x - this.screenWidth / 2 - document.body.scrollLeft,
+            originY2 =
+              evtObj.center.y - this.screenHeight / 2 - document.body.scrollTop;
+
+          this.element.originX = originX2;
+          this.element.originY = originY2;
+          this.element.translateX =
+            this.element.translateX +
+            (originX2 - originX) * this.element.scaleX;
+          this.element.translateY =
+            this.element.translateY +
+            (originY2 - originY) * this.element.scaleY;
+          this.element.scaleX = this.element.scaleY =
+            this.initScale * evtObj.scale;
+        },
+        onMultipointEnd() {
+          this.element.style.webkitTransition = "300ms ease";
+
+          const { maxScale } = this.options;
+          // scale to normal
+          if (this.element.scaleX < 1) {
+            this.restore(false);
+          }
+          if (this.element.scaleX > maxScale) {
+            this.setScale(maxScale);
+          }
+        },
+        onPressMove(evt, evtObj) {
+          this.endAnimation();
+          this.element.translateX += evtObj.deltaX;
+          evt.preventDefault();
+        },
+      });
+    }
+  }
+
+  setScale(size) {
+    this.element.style.webkitTransition = "300ms ease-in-out";
+    this.element.scaleX = this.element.scaleY = size;
+  }
+
+  restore(rotate = true) {
+    this.element.translateX = this.element.translateY = 0;
+    !!rotate && (this.element.rotateZ = 0);
+    this.element.scaleX = this.element.scaleY = 1;
+    this.element.originX = this.element.originY = 0;
+  }
+
+  endAnimation() {
+    this.element.style.webkitTransition = "0";
   }
 
   clear() {
@@ -93,13 +168,12 @@ class Editor {
     return this.drawInstance.canUndo();
   }
 
-  canRedo() {
-    return this.drawInstance.canRedo();
-  }
+  canRedo() {}
 
   destroy() {
     this.drawInstance.destroy();
     this.imageBackdrop.destroy();
+    this.finger?.destroy();
   }
 
   getResult() {
@@ -132,6 +206,8 @@ class Editor {
 Editor.defaultOptions = {
   root: null,
   openSmooth: false,
+  scaleable: true,
+  maxScale: 3,
 };
 
 export default Editor;

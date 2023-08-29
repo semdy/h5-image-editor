@@ -30,13 +30,13 @@
   "author": "semdy",
   "email": "501859275@qq.com",
   "license": "MIT",
-  "homepage": "https://github.com/semdy/h5-signature",
+  "homepage": "https://github.com/semdy/h5-image-editor",
   "repository": {
     "type": "git",
-    "url": "https://github.com/semdy/h5-signature.git"
+    "url": "https://github.com/semdy/h5-image-editor.git"
   },
   "bugs": {
-    "url": "https://github.com/semdy/h5-signature/issues"
+    "url": "https://github.com/semdy/h5-image-editor/issues"
   },
   "devDependencies": {
     "@babel/core": "7.13.14",
@@ -51,6 +51,6 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.16.0",
-    "h5-signature": "^0.2.10"
+    "h5-signature": "^0.3.1"
   }
 }
