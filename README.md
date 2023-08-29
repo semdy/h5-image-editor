@@ -29,6 +29,8 @@ new Editor.default({
   minWidth: 2, // minimize linWidth
   minSpeed: 1.5, // minimize brush move speed
   scaleRatio: window.devicePixelRatio, // canvas scale ratio
+  scaleable: true, // canvas can pinch sacaleable
+  maxScale: 5, // max scacle by pinch
   maxWidthDiffRate: 20, // Smooth transition threshold
   maxHistoryLength: 0, // max history length, no limit if set to 0
   undoRedoStateChange: Function, // state change callback if undo/redo state changed
