@@ -34,6 +34,9 @@ class Editor {
       maxWidthDiffRate,
       maxHistoryLength,
       undoRedoStateChange,
+      onDrawStart,
+      onDrawing,
+      onDrawUp,
     } = this.options;
     if (!root || !(root instanceof Element)) {
       throw new Error("Invalid root element.");
@@ -73,6 +76,9 @@ class Editor {
       maxWidthDiffRate,
       maxHistoryLength,
       undoRedoStateChange,
+      onDrawStart,
+      onDrawing,
+      onDrawUp,
     });
     const { drawElement } = this.drawInstance;
     drawElement.style.position = "absolute";
@@ -131,6 +137,7 @@ class Editor {
   }
 
   setScale(size) {
+    this.element.style.transition = "300ms ease-in-out";
     this.element.style.webkitTransition = "300ms ease-in-out";
     this.element.scaleX = this.element.scaleY = size;
   }
@@ -143,6 +150,7 @@ class Editor {
   }
 
   endAnimation() {
+    this.element.style.transition = "0";
     this.element.style.webkitTransition = "0";
   }
 

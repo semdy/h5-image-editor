@@ -761,11 +761,6 @@ var Finger = /*#__PURE__*/function () {
     this.element.addEventListener("touchmove", this.handleMove, false);
     this.element.addEventListener("touchend", this.handleEnd, false);
     this.element.addEventListener("touchcancel", this.handleCancel, false);
-
-    // const log = document.getElementById("log");
-    // window.console.log = function (...args) {
-    //   log.textContent = args.join(" ");
-    // };
   }
   _createClass(Finger, [{
     key: "_emitEvent",
@@ -930,6 +925,7 @@ var Finger = /*#__PURE__*/function () {
   }, {
     key: "destroy",
     value: function destroy() {
+      this.handleCancel();
       this.element.removeEventListener("touchstart", this.handleStart);
       this.element.removeEventListener("touchmove", this.handleMove);
       this.element.removeEventListener("touchend", this.handleEnd);
@@ -1133,16 +1129,21 @@ var Editor = /*#__PURE__*/function () {
     this.screenWidth = window.innerWidth || window.screen.availWidth;
     this.screenHeight = window.innerHeight || window.screen.availHeight;
     this.init();
+
+    // const log = document.getElementById("log");
+    // window.console.log = function (...args) {
+    //   log.textContent = args.join(" ");
+    // };
   }
   _createClass(Editor, [{
     key: "init",
     value: function () {
       var _init = _asyncToGenerator( /*#__PURE__*/regenerator_default().mark(function _callee() {
-        var _this$options, root, url, scaleRatio, scaleable, maxScale, lineWidth, color, openSmooth, rotate, minWidth, minSpeed, maxWidthDiffRate, maxHistoryLength, undoRedoStateChange, img, width, height, drawElement;
+        var _this$options, root, url, scaleRatio, scaleable, maxScale, lineWidth, color, openSmooth, rotate, minWidth, minSpeed, maxWidthDiffRate, maxHistoryLength, undoRedoStateChange, onDrawStart, onDrawing, onDrawUp, img, width, height, drawElement;
         return regenerator_default().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
-              _this$options = this.options, root = _this$options.root, url = _this$options.url, scaleRatio = _this$options.scaleRatio, scaleable = _this$options.scaleable, maxScale = _this$options.maxScale, lineWidth = _this$options.lineWidth, color = _this$options.color, openSmooth = _this$options.openSmooth, rotate = _this$options.rotate, minWidth = _this$options.minWidth, minSpeed = _this$options.minSpeed, maxWidthDiffRate = _this$options.maxWidthDiffRate, maxHistoryLength = _this$options.maxHistoryLength, undoRedoStateChange = _this$options.undoRedoStateChange;
+              _this$options = this.options, root = _this$options.root, url = _this$options.url, scaleRatio = _this$options.scaleRatio, scaleable = _this$options.scaleable, maxScale = _this$options.maxScale, lineWidth = _this$options.lineWidth, color = _this$options.color, openSmooth = _this$options.openSmooth, rotate = _this$options.rotate, minWidth = _this$options.minWidth, minSpeed = _this$options.minSpeed, maxWidthDiffRate = _this$options.maxWidthDiffRate, maxHistoryLength = _this$options.maxHistoryLength, undoRedoStateChange = _this$options.undoRedoStateChange, onDrawStart = _this$options.onDrawStart, onDrawing = _this$options.onDrawing, onDrawUp = _this$options.onDrawUp;
               if (!(!root || !(root instanceof Element))) {
                 _context.next = 3;
                 break;
@@ -1183,7 +1184,10 @@ var Editor = /*#__PURE__*/function () {
                 minSpeed: minSpeed,
                 maxWidthDiffRate: maxWidthDiffRate,
                 maxHistoryLength: maxHistoryLength,
-                undoRedoStateChange: undoRedoStateChange
+                undoRedoStateChange: undoRedoStateChange,
+                onDrawStart: onDrawStart,
+                onDrawing: onDrawing,
+                onDrawUp: onDrawUp
               });
               drawElement = this.drawInstance.drawElement;
               drawElement.style.position = "absolute";
@@ -1243,6 +1247,7 @@ var Editor = /*#__PURE__*/function () {
   }, {
     key: "setScale",
     value: function setScale(size) {
+      this.element.style.transition = "300ms ease-in-out";
       this.element.style.webkitTransition = "300ms ease-in-out";
       this.element.scaleX = this.element.scaleY = size;
     }
@@ -1258,6 +1263,7 @@ var Editor = /*#__PURE__*/function () {
   }, {
     key: "endAnimation",
     value: function endAnimation() {
+      this.element.style.transition = "0";
       this.element.style.webkitTransition = "0";
     }
   }, {
