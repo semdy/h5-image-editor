@@ -116,14 +116,18 @@ export default class Finger {
         x: evt.touches[1].pageX - currentX,
         y: evt.touches[1].pageY - currentY,
       };
+
       if (preV.x !== null) {
         if (this.pinchStartLen > 0) {
           const center = {
             x: (evt.touches[1].pageX + currentX) / 2,
             y: (evt.touches[1].pageY + currentY) / 2,
           };
-          const scale = getLen(v) / this.pinchStartLen;
-          this._emitEvent("onPinch", evt, { center, scale: scale });
+          const pichLen = getLen(v);
+          const scale = pichLen / this.pinchStartLen;
+          if (preV.x < pichLen && preV.y < pichLen) {
+            this._emitEvent("onPinch", evt, { center, scale: scale });
+          }
         }
         const angle = getRotateAngle(v, preV);
         this._emitEvent("onRotate", evt, { angle });

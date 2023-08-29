@@ -831,11 +831,14 @@ var Finger = /*#__PURE__*/function () {
               x: (evt.touches[1].pageX + currentX) / 2,
               y: (evt.touches[1].pageY + currentY) / 2
             };
-            var scale = getLen(v) / this.pinchStartLen;
-            this._emitEvent("onPinch", evt, {
-              center: center,
-              scale: scale
-            });
+            var pichLen = getLen(v);
+            var scale = pichLen / this.pinchStartLen;
+            if (preV.x < pichLen && preV.y < pichLen) {
+              this._emitEvent("onPinch", evt, {
+                center: center,
+                scale: scale
+              });
+            }
           }
           var angle = getRotateAngle(v, preV);
           this._emitEvent("onRotate", evt, {
