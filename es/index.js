@@ -348,179 +348,6 @@ try {
 
 /***/ }),
 
-/***/ 723:
-/***/ (function(module) {
-
-/* transformjs
- * By dntzhang
- */
-
-var Matrix3D = function Matrix3D(n11, n12, n13, n14, n21, n22, n23, n24, n31, n32, n33, n34, n41, n42, n43, n44) {
-  this.elements = window.Float32Array ? new Float32Array(16) : [];
-  var te = this.elements;
-  te[0] = n11 !== undefined ? n11 : 1;
-  te[4] = n12 || 0;
-  te[8] = n13 || 0;
-  te[12] = n14 || 0;
-  te[1] = n21 || 0;
-  te[5] = n22 !== undefined ? n22 : 1;
-  te[9] = n23 || 0;
-  te[13] = n24 || 0;
-  te[2] = n31 || 0;
-  te[6] = n32 || 0;
-  te[10] = n33 !== undefined ? n33 : 1;
-  te[14] = n34 || 0;
-  te[3] = n41 || 0;
-  te[7] = n42 || 0;
-  te[11] = n43 || 0;
-  te[15] = n44 !== undefined ? n44 : 1;
-};
-Matrix3D.DEG_TO_RAD = Math.PI / 180;
-Matrix3D.prototype = {
-  set: function set(n11, n12, n13, n14, n21, n22, n23, n24, n31, n32, n33, n34, n41, n42, n43, n44) {
-    var te = this.elements;
-    te[0] = n11;
-    te[4] = n12;
-    te[8] = n13;
-    te[12] = n14;
-    te[1] = n21;
-    te[5] = n22;
-    te[9] = n23;
-    te[13] = n24;
-    te[2] = n31;
-    te[6] = n32;
-    te[10] = n33;
-    te[14] = n34;
-    te[3] = n41;
-    te[7] = n42;
-    te[11] = n43;
-    te[15] = n44;
-    return this;
-  },
-  identity: function identity() {
-    this.set(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
-    return this;
-  },
-  multiplyMatrices: function multiplyMatrices(a, be) {
-    var ae = a.elements;
-    var te = this.elements;
-    var a11 = ae[0],
-      a12 = ae[4],
-      a13 = ae[8],
-      a14 = ae[12];
-    var a21 = ae[1],
-      a22 = ae[5],
-      a23 = ae[9],
-      a24 = ae[13];
-    var a31 = ae[2],
-      a32 = ae[6],
-      a33 = ae[10],
-      a34 = ae[14];
-    var a41 = ae[3],
-      a42 = ae[7],
-      a43 = ae[11],
-      a44 = ae[15];
-    var b11 = be[0],
-      b12 = be[1],
-      b13 = be[2],
-      b14 = be[3];
-    var b21 = be[4],
-      b22 = be[5],
-      b23 = be[6],
-      b24 = be[7];
-    var b31 = be[8],
-      b32 = be[9],
-      b33 = be[10],
-      b34 = be[11];
-    var b41 = be[12],
-      b42 = be[13],
-      b43 = be[14],
-      b44 = be[15];
-    te[0] = a11 * b11 + a12 * b21 + a13 * b31 + a14 * b41;
-    te[4] = a11 * b12 + a12 * b22 + a13 * b32 + a14 * b42;
-    te[8] = a11 * b13 + a12 * b23 + a13 * b33 + a14 * b43;
-    te[12] = a11 * b14 + a12 * b24 + a13 * b34 + a14 * b44;
-    te[1] = a21 * b11 + a22 * b21 + a23 * b31 + a24 * b41;
-    te[5] = a21 * b12 + a22 * b22 + a23 * b32 + a24 * b42;
-    te[9] = a21 * b13 + a22 * b23 + a23 * b33 + a24 * b43;
-    te[13] = a21 * b14 + a22 * b24 + a23 * b34 + a24 * b44;
-    te[2] = a31 * b11 + a32 * b21 + a33 * b31 + a34 * b41;
-    te[6] = a31 * b12 + a32 * b22 + a33 * b32 + a34 * b42;
-    te[10] = a31 * b13 + a32 * b23 + a33 * b33 + a34 * b43;
-    te[14] = a31 * b14 + a32 * b24 + a33 * b34 + a34 * b44;
-    te[3] = a41 * b11 + a42 * b21 + a43 * b31 + a44 * b41;
-    te[7] = a41 * b12 + a42 * b22 + a43 * b32 + a44 * b42;
-    te[11] = a41 * b13 + a42 * b23 + a43 * b33 + a44 * b43;
-    te[15] = a41 * b14 + a42 * b24 + a43 * b34 + a44 * b44;
-    return this;
-  },
-  // 解决角度为90的整数倍导致Math.cos得到极小的数，其实是0。导致不渲染
-  _rounded: function _rounded(value, i) {
-    i = Math.pow(10, i || 15);
-    // default
-    return Math.round(value * i) / i;
-  },
-  appendTransform: function appendTransform(x, y, z, scaleX, scaleY, scaleZ, rotateX, rotateY, rotateZ, skewX, skewY, originX, originY, originZ) {
-    var rx = rotateX * Matrix3D.DEG_TO_RAD;
-    var cosx = this._rounded(Math.cos(rx));
-    var sinx = this._rounded(Math.sin(rx));
-    var ry = rotateY * Matrix3D.DEG_TO_RAD;
-    var cosy = this._rounded(Math.cos(ry));
-    var siny = this._rounded(Math.sin(ry));
-    var rz = rotateZ * Matrix3D.DEG_TO_RAD;
-    var cosz = this._rounded(Math.cos(rz * -1));
-    var sinz = this._rounded(Math.sin(rz * -1));
-    this.multiplyMatrices(this, [1, 0, 0, x, 0, cosx, sinx, y, 0, -sinx, cosx, z, 0, 0, 0, 1]);
-    this.multiplyMatrices(this, [cosy, 0, siny, 0, 0, 1, 0, 0, -siny, 0, cosy, 0, 0, 0, 0, 1]);
-    this.multiplyMatrices(this, [cosz * scaleX, sinz * scaleY, 0, 0, -sinz * scaleX, cosz * scaleY, 0, 0, 0, 0, 1 * scaleZ, 0, 0, 0, 0, 1]);
-    if (skewX || skewY) {
-      this.multiplyMatrices(this, [this._rounded(Math.cos(skewX * Matrix3D.DEG_TO_RAD)), this._rounded(Math.sin(skewX * Matrix3D.DEG_TO_RAD)), 0, 0, -1 * this._rounded(Math.sin(skewY * Matrix3D.DEG_TO_RAD)), this._rounded(Math.cos(skewY * Matrix3D.DEG_TO_RAD)), 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]);
-    }
-    if (originX || originY || originZ) {
-      this.elements[12] -= originX * this.elements[0] + originY * this.elements[4] + originZ * this.elements[8];
-      this.elements[13] -= originX * this.elements[1] + originY * this.elements[5] + originZ * this.elements[9];
-      this.elements[14] -= originX * this.elements[2] + originY * this.elements[6] + originZ * this.elements[10];
-    }
-    return this;
-  }
-};
-function observe(target, props, callback) {
-  for (var i = 0, len = props.length; i < len; i++) {
-    var prop = props[i];
-    watch(target, prop, callback);
-  }
-}
-function watch(target, prop, callback) {
-  Object.defineProperty(target, prop, {
-    get: function get() {
-      return this["__" + prop];
-    },
-    set: function set(value) {
-      if (value !== this["__" + prop]) {
-        this["__" + prop] = value;
-        callback();
-      }
-    }
-  });
-}
-var Transform = function Transform(element) {
-  observe(element, ["translateX", "translateY", "translateZ", "scaleX", "scaleY", "scaleZ", "rotateX", "rotateY", "rotateZ", "skewX", "skewY", "originX", "originY", "originZ"], function () {
-    var mtx = element.matrix3D.identity().appendTransform(element.translateX, element.translateY, element.translateZ, element.scaleX, element.scaleY, element.scaleZ, element.rotateX, element.rotateY, element.rotateZ, element.skewX, element.skewY, element.originX, element.originY, element.originZ);
-    element.style.transform = element.style.msTransform = element.style.OTransform = element.style.MozTransform = element.style.webkitTransform = "perspective(" + element.perspective + "px) matrix3d(" + Array.prototype.slice.call(mtx.elements).join(",") + ")";
-  });
-  observe(element, ["perspective"], function () {
-    element.style.transform = element.style.msTransform = element.style.OTransform = element.style.MozTransform = element.style.webkitTransform = "perspective(" + element.perspective + "px) matrix3d(" + Array.prototype.slice.call(element.matrix3D.elements).join(",") + ")";
-  });
-  element.matrix3D = new Matrix3D();
-  element.perspective = 500;
-  element.scaleX = element.scaleY = element.scaleZ = 1;
-  //由于image自带了x\y\z，所有加上translate前缀
-  element.translateX = element.translateY = element.translateZ = element.rotateX = element.rotateY = element.rotateZ = element.skewX = element.skewY = element.originX = element.originY = element.originZ = 0;
-};
-module.exports = Transform;
-
-/***/ }),
-
 /***/ 814:
 /***/ (function(module) {
 
@@ -934,16 +761,22 @@ var Finger = /*#__PURE__*/function () {
     this.element.addEventListener("touchmove", this.handleMove, false);
     this.element.addEventListener("touchend", this.handleEnd, false);
     this.element.addEventListener("touchcancel", this.handleCancel, false);
+    var log = document.getElementById("log");
+    window.console.log = function () {
+      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
+      log.textContent = args.join(" ");
+    };
   }
   _createClass(Finger, [{
     key: "_emitEvent",
     value: function _emitEvent(name) {
       if (this.options[name]) {
-        var _this$options$name;
-        for (var _len = arguments.length, arg = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-          arg[_key - 1] = arguments[_key];
+        for (var _len2 = arguments.length, arg = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+          arg[_key2 - 1] = arguments[_key2];
         }
-        (_this$options$name = this.options[name]).apply.apply(_this$options$name, [this.options.context].concat(arg));
+        this.options[name].apply(this.options.context, arg);
       }
     }
   }, {
@@ -994,28 +827,33 @@ var Finger = /*#__PURE__*/function () {
         };
         if (preV.x !== null) {
           if (this.pinchStartLen > 0) {
-            evt.center = {
+            var center = {
               x: (evt.touches[1].pageX + currentX) / 2,
               y: (evt.touches[1].pageY + currentY) / 2
             };
-            evt.scale = getLen(v) / this.pinchStartLen;
-            this._emitEvent("onPinch", evt);
+            var scale = getLen(v) / this.pinchStartLen;
+            this._emitEvent("onPinch", evt, {
+              center: center,
+              scale: scale
+            });
           }
-          evt.angle = getRotateAngle(v, preV);
-          this._emitEvent("onRotate", evt);
+          var angle = getRotateAngle(v, preV);
+          this._emitEvent("onRotate", evt, {
+            angle: angle
+          });
         }
         preV.x = v.x;
         preV.y = v.y;
         this.multiTouch = true;
-      } else {
+        var evtObj = {};
         if (this.x2 !== null) {
-          evt.deltaX = currentX - this.x2;
-          evt.deltaY = currentY - this.y2;
+          evtObj.deltaX = currentX - this.x2;
+          evtObj.deltaY = currentY - this.y2;
         } else {
-          evt.deltaX = 0;
-          evt.deltaY = 0;
+          evtObj.deltaX = 0;
+          evtObj.deltaY = 0;
         }
-        this._emitEvent("onPressMove", evt);
+        this._emitEvent("onPressMove", evt, evtObj);
       }
       this._cancelLongTap();
       this.x2 = currentX;
@@ -1041,24 +879,25 @@ var Finger = /*#__PURE__*/function () {
       if (evt.touches.length < 2) {
         this._emitEvent("onMultipointEnd", evt);
       }
-      evt.origin = [this.x1, this.y1];
+      var evtObj = {};
+      evtObj.origin = [this.x1, this.y1];
       if (this.multiTouch === false) {
         if (this.x2 && Math.abs(this.x1 - this.x2) > 30 || this.y2 && Math.abs(this.preV.y - this.y2) > 30) {
-          evt.direction = this._swipeDirection(this.x1, this.x2, this.y1, this.y2);
-          evt.distance = Math.abs(this.x1 - this.x2);
+          evtObj.direction = this._swipeDirection(this.x1, this.x2, this.y1, this.y2);
+          evtObj.distance = Math.abs(this.x1 - this.x2);
           this.swipeTimeout = setTimeout(function () {
-            _this2._emitEvent("onSwipe", evt);
+            _this2._emitEvent("onSwipe", evt, evtObj);
           }, 0);
         } else {
           this.tapTimeout = setTimeout(function () {
-            _this2._emitEvent("onTap", evt);
+            _this2._emitEvent("onTap", evt, evtObj);
             if (_this2.isDoubleTap) {
-              _this2._emitEvent("onDoubleTap", evt);
+              _this2._emitEvent("onDoubleTap", evt, evtObj);
               clearTimeout(_this2.singleTapTimeout);
               _this2.isDoubleTap = false;
             } else {
               _this2.singleTapTimeout = setTimeout(function () {
-                _this2._emitEvent("onSingleTap", evt);
+                _this2._emitEvent("onSingleTap", evt, evtObj);
               }, 250);
             }
           }, 0);
@@ -1109,9 +948,172 @@ var Finger = /*#__PURE__*/function () {
   return Finger;
 }();
 
-// EXTERNAL MODULE: ./src/transform.js
-var transform = __webpack_require__(723);
-var transform_default = /*#__PURE__*/__webpack_require__.n(transform);
+;// CONCATENATED MODULE: ./src/transform.js
+/* prettier-ignore */
+
+var Matrix3D = function Matrix3D(n11, n12, n13, n14, n21, n22, n23, n24, n31, n32, n33, n34, n41, n42, n43, n44) {
+  this.elements = window.Float32Array ? new Float32Array(16) : [];
+  var te = this.elements;
+  te[0] = n11 !== undefined ? n11 : 1;
+  te[4] = n12 || 0;
+  te[8] = n13 || 0;
+  te[12] = n14 || 0;
+  te[1] = n21 || 0;
+  te[5] = n22 !== undefined ? n22 : 1;
+  te[9] = n23 || 0;
+  te[13] = n24 || 0;
+  te[2] = n31 || 0;
+  te[6] = n32 || 0;
+  te[10] = n33 !== undefined ? n33 : 1;
+  te[14] = n34 || 0;
+  te[3] = n41 || 0;
+  te[7] = n42 || 0;
+  te[11] = n43 || 0;
+  te[15] = n44 !== undefined ? n44 : 1;
+};
+Matrix3D.DEG_TO_RAD = Math.PI / 180;
+Matrix3D.prototype = {
+  set: function set(n11, n12, n13, n14, n21, n22, n23, n24, n31, n32, n33, n34, n41, n42, n43, n44) {
+    var te = this.elements;
+    te[0] = n11;
+    te[4] = n12;
+    te[8] = n13;
+    te[12] = n14;
+    te[1] = n21;
+    te[5] = n22;
+    te[9] = n23;
+    te[13] = n24;
+    te[2] = n31;
+    te[6] = n32;
+    te[10] = n33;
+    te[14] = n34;
+    te[3] = n41;
+    te[7] = n42;
+    te[11] = n43;
+    te[15] = n44;
+    return this;
+  },
+  identity: function identity() {
+    this.set(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    return this;
+  },
+  multiplyMatrices: function multiplyMatrices(a, be) {
+    var ae = a.elements;
+    var te = this.elements;
+    var a11 = ae[0],
+      a12 = ae[4],
+      a13 = ae[8],
+      a14 = ae[12];
+    var a21 = ae[1],
+      a22 = ae[5],
+      a23 = ae[9],
+      a24 = ae[13];
+    var a31 = ae[2],
+      a32 = ae[6],
+      a33 = ae[10],
+      a34 = ae[14];
+    var a41 = ae[3],
+      a42 = ae[7],
+      a43 = ae[11],
+      a44 = ae[15];
+    var b11 = be[0],
+      b12 = be[1],
+      b13 = be[2],
+      b14 = be[3];
+    var b21 = be[4],
+      b22 = be[5],
+      b23 = be[6],
+      b24 = be[7];
+    var b31 = be[8],
+      b32 = be[9],
+      b33 = be[10],
+      b34 = be[11];
+    var b41 = be[12],
+      b42 = be[13],
+      b43 = be[14],
+      b44 = be[15];
+    te[0] = a11 * b11 + a12 * b21 + a13 * b31 + a14 * b41;
+    te[4] = a11 * b12 + a12 * b22 + a13 * b32 + a14 * b42;
+    te[8] = a11 * b13 + a12 * b23 + a13 * b33 + a14 * b43;
+    te[12] = a11 * b14 + a12 * b24 + a13 * b34 + a14 * b44;
+    te[1] = a21 * b11 + a22 * b21 + a23 * b31 + a24 * b41;
+    te[5] = a21 * b12 + a22 * b22 + a23 * b32 + a24 * b42;
+    te[9] = a21 * b13 + a22 * b23 + a23 * b33 + a24 * b43;
+    te[13] = a21 * b14 + a22 * b24 + a23 * b34 + a24 * b44;
+    te[2] = a31 * b11 + a32 * b21 + a33 * b31 + a34 * b41;
+    te[6] = a31 * b12 + a32 * b22 + a33 * b32 + a34 * b42;
+    te[10] = a31 * b13 + a32 * b23 + a33 * b33 + a34 * b43;
+    te[14] = a31 * b14 + a32 * b24 + a33 * b34 + a34 * b44;
+    te[3] = a41 * b11 + a42 * b21 + a43 * b31 + a44 * b41;
+    te[7] = a41 * b12 + a42 * b22 + a43 * b32 + a44 * b42;
+    te[11] = a41 * b13 + a42 * b23 + a43 * b33 + a44 * b43;
+    te[15] = a41 * b14 + a42 * b24 + a43 * b34 + a44 * b44;
+    return this;
+  },
+  // 解决角度为90的整数倍导致Math.cos得到极小的数，其实是0。导致不渲染
+  _rounded: function _rounded(value, i) {
+    i = Math.pow(10, i || 15);
+    // default
+    return Math.round(value * i) / i;
+  },
+  appendTransform: function appendTransform(x, y, z, scaleX, scaleY, scaleZ, rotateX, rotateY, rotateZ, skewX, skewY, originX, originY, originZ) {
+    var rx = rotateX * Matrix3D.DEG_TO_RAD;
+    var cosx = this._rounded(Math.cos(rx));
+    var sinx = this._rounded(Math.sin(rx));
+    var ry = rotateY * Matrix3D.DEG_TO_RAD;
+    var cosy = this._rounded(Math.cos(ry));
+    var siny = this._rounded(Math.sin(ry));
+    var rz = rotateZ * Matrix3D.DEG_TO_RAD;
+    var cosz = this._rounded(Math.cos(rz * -1));
+    var sinz = this._rounded(Math.sin(rz * -1));
+    this.multiplyMatrices(this, [1, 0, 0, x, 0, cosx, sinx, y, 0, -sinx, cosx, z, 0, 0, 0, 1]);
+    this.multiplyMatrices(this, [cosy, 0, siny, 0, 0, 1, 0, 0, -siny, 0, cosy, 0, 0, 0, 0, 1]);
+    this.multiplyMatrices(this, [cosz * scaleX, sinz * scaleY, 0, 0, -sinz * scaleX, cosz * scaleY, 0, 0, 0, 0, 1 * scaleZ, 0, 0, 0, 0, 1]);
+    if (skewX || skewY) {
+      this.multiplyMatrices(this, [this._rounded(Math.cos(skewX * Matrix3D.DEG_TO_RAD)), this._rounded(Math.sin(skewX * Matrix3D.DEG_TO_RAD)), 0, 0, -1 * this._rounded(Math.sin(skewY * Matrix3D.DEG_TO_RAD)), this._rounded(Math.cos(skewY * Matrix3D.DEG_TO_RAD)), 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]);
+    }
+    if (originX || originY || originZ) {
+      this.elements[12] -= originX * this.elements[0] + originY * this.elements[4] + originZ * this.elements[8];
+      this.elements[13] -= originX * this.elements[1] + originY * this.elements[5] + originZ * this.elements[9];
+      this.elements[14] -= originX * this.elements[2] + originY * this.elements[6] + originZ * this.elements[10];
+    }
+    return this;
+  }
+};
+function observe(target, props, callback) {
+  for (var i = 0, len = props.length; i < len; i++) {
+    var prop = props[i];
+    watch(target, prop, callback);
+  }
+}
+function watch(target, prop, callback) {
+  Object.defineProperty(target, prop, {
+    get: function get() {
+      return this["__" + prop];
+    },
+    set: function set(value) {
+      if (value !== this["__" + prop]) {
+        this["__" + prop] = value;
+        callback();
+      }
+    }
+  });
+}
+var Transform = function Transform(element) {
+  observe(element, ["translateX", "translateY", "translateZ", "scaleX", "scaleY", "scaleZ", "rotateX", "rotateY", "rotateZ", "skewX", "skewY", "originX", "originY", "originZ"], function () {
+    var mtx = element.matrix3D.identity().appendTransform(element.translateX, element.translateY, element.translateZ, element.scaleX, element.scaleY, element.scaleZ, element.rotateX, element.rotateY, element.rotateZ, element.skewX, element.skewY, element.originX, element.originY, element.originZ);
+    element.style.transform = element.style.msTransform = element.style.OTransform = element.style.MozTransform = element.style.webkitTransform = "perspective(" + element.perspective + "px) matrix3d(" + Array.prototype.slice.call(mtx.elements).join(",") + ")";
+  });
+  observe(element, ["perspective"], function () {
+    element.style.transform = element.style.msTransform = element.style.OTransform = element.style.MozTransform = element.style.webkitTransform = "perspective(" + element.perspective + "px) matrix3d(" + Array.prototype.slice.call(element.matrix3D.elements).join(",") + ")";
+  });
+  element.matrix3D = new Matrix3D();
+  element.perspective = 500;
+  element.scaleX = element.scaleY = element.scaleZ = 1;
+  //由于image自带了x\y\z，所有加上translate前缀
+  element.translateX = element.translateY = element.translateZ = element.rotateX = element.rotateY = element.rotateZ = element.skewX = element.skewY = element.originX = element.originY = element.originZ = 0;
+};
+/* harmony default export */ var transform = (Transform);
 ;// CONCATENATED MODULE: ./src/Editor.js
 
 
@@ -1131,17 +1133,19 @@ var Editor = /*#__PURE__*/function () {
     _classCallCheck(this, Editor);
     this.options = _objectSpread(_objectSpread({}, Editor.defaultOptions), options);
     this.initScale = 1;
+    this.screenWidth = window.innerWidth || window.screen.availWidth;
+    this.screenHeight = window.innerHeight || window.screen.availHeight;
     this.init();
   }
   _createClass(Editor, [{
     key: "init",
     value: function () {
       var _init = _asyncToGenerator( /*#__PURE__*/regenerator_default().mark(function _callee() {
-        var _this$options, root, url, scaleRatio, lineWidth, color, openSmooth, rotate, minWidth, minSpeed, maxWidthDiffRate, maxHistoryLength, undoRedoStateChange, img, width, height, drawElement;
+        var _this$options, root, url, scaleRatio, scaleable, maxScale, lineWidth, color, openSmooth, rotate, minWidth, minSpeed, maxWidthDiffRate, maxHistoryLength, undoRedoStateChange, img, width, height, drawElement;
         return regenerator_default().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
-              _this$options = this.options, root = _this$options.root, url = _this$options.url, scaleRatio = _this$options.scaleRatio, lineWidth = _this$options.lineWidth, color = _this$options.color, openSmooth = _this$options.openSmooth, rotate = _this$options.rotate, minWidth = _this$options.minWidth, minSpeed = _this$options.minSpeed, maxWidthDiffRate = _this$options.maxWidthDiffRate, maxHistoryLength = _this$options.maxHistoryLength, undoRedoStateChange = _this$options.undoRedoStateChange;
+              _this$options = this.options, root = _this$options.root, url = _this$options.url, scaleRatio = _this$options.scaleRatio, scaleable = _this$options.scaleable, maxScale = _this$options.maxScale, lineWidth = _this$options.lineWidth, color = _this$options.color, openSmooth = _this$options.openSmooth, rotate = _this$options.rotate, minWidth = _this$options.minWidth, minSpeed = _this$options.minSpeed, maxWidthDiffRate = _this$options.maxWidthDiffRate, maxHistoryLength = _this$options.maxHistoryLength, undoRedoStateChange = _this$options.undoRedoStateChange;
               if (!(!root || !(root instanceof Element))) {
                 _context.next = 3;
                 break;
@@ -1188,67 +1192,46 @@ var Editor = /*#__PURE__*/function () {
               drawElement.style.position = "absolute";
               drawElement.style.left = "0";
               drawElement.style.top = "0";
-              transform_default()(this.element);
-              this.finger = new Finger(this.element, {
-                context: this,
-                maxScale: this.options.maxScale,
-                onMultipointStart: function onMultipointStart() {
-                  this.initScale = this.element.scaleX;
-                },
-                onPinch: function onPinch(evt) {
-                  this.element.style.webkitTransition = "cubic-bezier(.25,.01,.25,1)";
-                  var _this$element = this.element,
-                    originX = _this$element.originX,
-                    originY = _this$element.originY,
-                    originX2 = evt.center.x - this.screenWidth / 2 - document.body.scrollLeft,
-                    originY2 = evt.center.y - this.screenHeight / 2 - document.body.scrollTop;
-                  this.element.originX = originX2;
-                  this.element.originY = originY2;
-                  this.element.translateX = this.element.translateX + (originX2 - originX) * this.element.scaleX;
-                  this.element.translateY = this.element.translateY + (originY2 - originY) * this.element.scaleY;
-                  this.element.scaleX = this.element.scaleY = this.initScale * evt.scale;
-                },
-                onRotate: function onRotate(evt) {
-                  this.element.style.webkitTransition = "cubic-bezier(.25,.01,.25,1)";
-                  this.element.rotateZ += evt.angle;
-                },
-                onMultipointEnd: function onMultipointEnd() {
-                  if (!this.element) {
-                    return;
+              if (scaleable) {
+                transform(this.element);
+                this.finger = new Finger(this.element, {
+                  context: this,
+                  maxScale: maxScale,
+                  onMultipointStart: function onMultipointStart() {
+                    this.initScale = this.element.scaleX;
+                  },
+                  onPinch: function onPinch(evt, evtObj) {
+                    this.element.style.webkitTransition = "cubic-bezier(.25,.01,.25,1)";
+                    var _this$element = this.element,
+                      originX = _this$element.originX,
+                      originY = _this$element.originY,
+                      originX2 = evtObj.center.x - this.screenWidth / 2 - document.body.scrollLeft,
+                      originY2 = evtObj.center.y - this.screenHeight / 2 - document.body.scrollTop;
+                    this.element.originX = originX2;
+                    this.element.originY = originY2;
+                    this.element.translateX = this.element.translateX + (originX2 - originX) * this.element.scaleX;
+                    this.element.translateY = this.element.translateY + (originY2 - originY) * this.element.scaleY;
+                    this.element.scaleX = this.element.scaleY = this.initScale * evtObj.scale;
+                  },
+                  onMultipointEnd: function onMultipointEnd() {
+                    this.element.style.webkitTransition = "300ms ease";
+                    var maxScale = this.options.maxScale;
+                    // scale to normal
+                    if (this.element.scaleX < 1) {
+                      this.restore(false);
+                    }
+                    if (this.element.scaleX > maxScale) {
+                      this.setScale(maxScale);
+                    }
+                  },
+                  onPressMove: function onPressMove(evt, evtObj) {
+                    this.endAnimation();
+                    this.element.translateX += evtObj.deltaX;
+                    evt.preventDefault();
                   }
-                  this.element.style.webkitTransition = "300ms ease";
-                  var maxScale = this.options.maxScale;
-                  // scale to normal
-                  if (this.element.scaleX < 1) {
-                    this.restore(false);
-                  }
-                  if (this.element.scaleX > maxScale) {
-                    this.setScale(maxScale);
-                  }
-
-                  // rotate to normal
-                  var rotation = this.element.rotateZ % 360,
-                    rate = this.element.getAttribute("rate");
-                  if (rotation < 0) {
-                    rotation = 360 + rotation;
-                  }
-                  this.element.rotateZ = rotation;
-                  if (rotation > 0 && rotation < 45) {
-                    this.element.rotateZ = 0;
-                  } else if (rotation >= 315) {
-                    this.element.rotateZ = 360;
-                  } else if (rotation >= 45 && rotation < 135) {
-                    this.element.rotateZ = 90;
-                    this.setScale(rate);
-                  } else if (rotation >= 135 && rotation < 225) {
-                    this.element.rotateZ = 180;
-                  } else if (rotation >= 225 && rotation < 315) {
-                    this.element.rotateZ = 270;
-                    this.setScale(rate);
-                  }
-                }
-              });
-            case 25:
+                });
+              }
+            case 24:
             case "end":
               return _context.stop();
           }
@@ -1273,6 +1256,11 @@ var Editor = /*#__PURE__*/function () {
       !!rotate && (this.element.rotateZ = 0);
       this.element.scaleX = this.element.scaleY = 1;
       this.element.originX = this.element.originY = 0;
+    }
+  }, {
+    key: "endAnimation",
+    value: function endAnimation() {
+      this.element.style.webkitTransition = "0";
     }
   }, {
     key: "clear",
@@ -1311,14 +1299,14 @@ var Editor = /*#__PURE__*/function () {
     }
   }, {
     key: "canRedo",
-    value: function canRedo() {
-      return this.drawInstance.canRedo();
-    }
+    value: function canRedo() {}
   }, {
     key: "destroy",
     value: function destroy() {
+      var _this$finger;
       this.drawInstance.destroy();
       this.imageBackdrop.destroy();
+      (_this$finger = this.finger) === null || _this$finger === void 0 ? void 0 : _this$finger.destroy();
     }
   }, {
     key: "getResult",
@@ -1341,7 +1329,8 @@ var Editor = /*#__PURE__*/function () {
 Editor.defaultOptions = {
   root: null,
   openSmooth: false,
-  maxScale: 2
+  scaleable: true,
+  maxScale: 3
 };
 /* harmony default export */ var src_Editor = (Editor);
 ;// CONCATENATED MODULE: ./src/index.js

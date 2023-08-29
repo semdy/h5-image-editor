@@ -8,6 +8,9 @@
   <title>Document</title>
   <script src="./index.js"></script>
   <style>
+    body {
+      -webkit-user-select: none;
+    }
     #container {
       background-color: #f0f0f0;
       cursor: crosshair;
@@ -26,6 +29,7 @@
 <body>
 <div class="cover">
   <div id="container"></div>
+  <div id="log"></div>
   <div style="margin: 10px 0;">
     <button id="clear">clear</button>
     <button id="undo">undo</button>
@@ -52,9 +56,9 @@
 
   var stage = new ImageEditor.default({
     root: container,
-    scaleRatio: 3,
+    scaleRatio: 2,
     lineWidth: 8,
-    url: 'https://dev-b10002-space.imsdom.com/ti2019120619563000010051/21/123231013014331392',
+    url: 'https://dev-b10002-space.imsdom.com/ti2019120619563000010051/21/123276703950168064',
     undoRedoStateChange: function (canUndo, canRedo) {
       if (canUndo) {
         document.getElementById('undo').removeAttribute('disabled')
