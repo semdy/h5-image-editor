@@ -34,6 +34,9 @@ new Editor.default({
   maxWidthDiffRate: 20, // Smooth transition threshold
   maxHistoryLength: 0, // max history length, no limit if set to 0
   undoRedoStateChange: Function, // state change callback if undo/redo state changed
+  onDrawStart: Function, // called when draw starts, [MouseEvent, point]
+  onDrawing: Function, // called when draw going , [MouseEvent, point]
+  onDrawUp: Function, // called when draw up , [MouseEvent, Image]
 });
 ```
 
