@@ -157,49 +157,50 @@ class Editor {
   }
 
   clear() {
-    this.drawInstance.clear();
+    this.drawInstance?.clear();
   }
 
   setLineWidth(num) {
-    this.drawInstance.setLineWidth(num);
+    this.drawInstance?.setLineWidth(num);
   }
 
   setColor(color) {
-    this.drawInstance.setColor(color);
+    this.drawInstance?.setColor(color);
   }
 
   setOptions(options) {
-    this.drawInstance.setOptions(options);
+    this.drawInstance?.setOptions(options);
   }
 
   undo() {
-    this.drawInstance.undo();
+    this.drawInstance?.undo();
   }
 
   redo() {
-    this.drawInstance.redo();
+    this.drawInstance?.redo();
   }
 
   canUndo() {
-    return this.drawInstance.canUndo();
+    return this.drawInstance?.canUndo();
   }
 
   canRedo() {
-    return this.drawInstance.canRedo();
+    return this.drawInstance?.canRedo();
   }
 
   isEmpty() {
-    return this.drawInstance.isEmpty();
+    return this.drawInstance?.isEmpty();
   }
 
   destroy() {
-    this.drawInstance.destroy();
-    this.imageBackdrop.destroy();
+    this.drawInstance?.destroy();
+    this.imageBackdrop?.destroy();
     this.finger?.destroy();
   }
 
   getResult() {
     try {
+      if (!this.drawInstance || !this.imageBackdrop) return;
       const mergeCanvas = document.createElement("canvas");
       const mergeCtx = mergeCanvas.getContext("2d");
       mergeCanvas.width = this.imgWidth;
@@ -228,6 +229,7 @@ class Editor {
 Editor.defaultOptions = {
   root: null,
   openSmooth: false,
+  scaleRatio: window.devicePixelRatio || 1,
   scaleable: true,
   maxScale: 5,
   onDrawStart: noop,
