@@ -1270,60 +1270,70 @@ var Editor = /*#__PURE__*/function () {
   }, {
     key: "clear",
     value: function clear() {
-      this.drawInstance.clear();
+      var _this$drawInstance;
+      (_this$drawInstance = this.drawInstance) === null || _this$drawInstance === void 0 ? void 0 : _this$drawInstance.clear();
     }
   }, {
     key: "setLineWidth",
     value: function setLineWidth(num) {
-      this.drawInstance.setLineWidth(num);
+      var _this$drawInstance2;
+      (_this$drawInstance2 = this.drawInstance) === null || _this$drawInstance2 === void 0 ? void 0 : _this$drawInstance2.setLineWidth(num);
     }
   }, {
     key: "setColor",
     value: function setColor(color) {
-      this.drawInstance.setColor(color);
+      var _this$drawInstance3;
+      (_this$drawInstance3 = this.drawInstance) === null || _this$drawInstance3 === void 0 ? void 0 : _this$drawInstance3.setColor(color);
     }
   }, {
     key: "setOptions",
     value: function setOptions(options) {
-      this.drawInstance.setOptions(options);
+      var _this$drawInstance4;
+      (_this$drawInstance4 = this.drawInstance) === null || _this$drawInstance4 === void 0 ? void 0 : _this$drawInstance4.setOptions(options);
     }
   }, {
     key: "undo",
     value: function undo() {
-      this.drawInstance.undo();
+      var _this$drawInstance5;
+      (_this$drawInstance5 = this.drawInstance) === null || _this$drawInstance5 === void 0 ? void 0 : _this$drawInstance5.undo();
     }
   }, {
     key: "redo",
     value: function redo() {
-      this.drawInstance.redo();
+      var _this$drawInstance6;
+      (_this$drawInstance6 = this.drawInstance) === null || _this$drawInstance6 === void 0 ? void 0 : _this$drawInstance6.redo();
     }
   }, {
     key: "canUndo",
     value: function canUndo() {
-      return this.drawInstance.canUndo();
+      var _this$drawInstance7;
+      return (_this$drawInstance7 = this.drawInstance) === null || _this$drawInstance7 === void 0 ? void 0 : _this$drawInstance7.canUndo();
     }
   }, {
     key: "canRedo",
     value: function canRedo() {
-      return this.drawInstance.canRedo();
+      var _this$drawInstance8;
+      return (_this$drawInstance8 = this.drawInstance) === null || _this$drawInstance8 === void 0 ? void 0 : _this$drawInstance8.canRedo();
     }
   }, {
     key: "isEmpty",
     value: function isEmpty() {
-      return this.drawInstance.isEmpty();
+      var _this$drawInstance9;
+      return (_this$drawInstance9 = this.drawInstance) === null || _this$drawInstance9 === void 0 ? void 0 : _this$drawInstance9.isEmpty();
     }
   }, {
     key: "destroy",
     value: function destroy() {
-      var _this$finger;
-      this.drawInstance.destroy();
-      this.imageBackdrop.destroy();
+      var _this$drawInstance10, _this$imageBackdrop, _this$finger;
+      (_this$drawInstance10 = this.drawInstance) === null || _this$drawInstance10 === void 0 ? void 0 : _this$drawInstance10.destroy();
+      (_this$imageBackdrop = this.imageBackdrop) === null || _this$imageBackdrop === void 0 ? void 0 : _this$imageBackdrop.destroy();
       (_this$finger = this.finger) === null || _this$finger === void 0 ? void 0 : _this$finger.destroy();
     }
   }, {
     key: "getResult",
     value: function getResult() {
       try {
+        if (!this.drawInstance || !this.imageBackdrop) return;
         var mergeCanvas = document.createElement("canvas");
         var mergeCtx = mergeCanvas.getContext("2d");
         mergeCanvas.width = this.imgWidth;
@@ -1341,6 +1351,7 @@ var Editor = /*#__PURE__*/function () {
 Editor.defaultOptions = {
   root: null,
   openSmooth: false,
+  scaleRatio: window.devicePixelRatio || 1,
   scaleable: true,
   maxScale: 5,
   onDrawStart: noop,
