@@ -1328,6 +1328,10 @@ var Editor = /*#__PURE__*/function () {
       (_this$drawInstance10 = this.drawInstance) === null || _this$drawInstance10 === void 0 ? void 0 : _this$drawInstance10.destroy();
       (_this$imageBackdrop = this.imageBackdrop) === null || _this$imageBackdrop === void 0 ? void 0 : _this$imageBackdrop.destroy();
       (_this$finger = this.finger) === null || _this$finger === void 0 ? void 0 : _this$finger.destroy();
+      try {
+        this.element.parentElement.removeChild(this.element);
+        this.element = null;
+      } catch (e) {}
     }
   }, {
     key: "getResult",

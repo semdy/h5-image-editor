@@ -196,6 +196,10 @@ class Editor {
     this.drawInstance?.destroy();
     this.imageBackdrop?.destroy();
     this.finger?.destroy();
+    try {
+      this.element.parentElement.removeChild(this.element);
+      this.element = null;
+    } catch (e) {}
   }
 
   getResult() {
