@@ -49,8 +49,11 @@ class Editor {
     const img = await load(url);
     this.imgWidth = img.width;
     this.imgHeight = img.height;
-    const width = img.width / scaleRatio;
-    const height = img.height / scaleRatio;
+    const width = Math.min(img.width / scaleRatio, window.innerWidth);
+    const height = Math.min(
+      img.height / scaleRatio,
+      (width / img.width) * img.height
+    );
 
     this.element.style.position = "relative";
     this.element.style.width = width + "px";
