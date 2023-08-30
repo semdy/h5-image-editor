@@ -9,6 +9,7 @@
   <script src="./index.js"></script>
   <style>
     body {
+      margin: 0;
       -webkit-user-select: none;
     }
     #container {
@@ -56,9 +57,9 @@
 
   var stage = new ImageEditor.default({
     root: container,
-    scaleRatio: 2,
+    scaleRatio: 3,
     lineWidth: 8,
-    url: 'https://dev-b10002-space.imsdom.com/ti2019120619563000010051/21/123276703950168064',
+    url: 'https://dev-b10002-space.imsdom.com/ti2019120619563000010051/21/123231013014331392',
     undoRedoStateChange: function (canUndo, canRedo) {
       if (canUndo) {
         document.getElementById('undo').removeAttribute('disabled')

@@ -33,6 +33,7 @@ class Editor {
       rotate,
       minWidth,
       minSpeed,
+      maxWidth,
       maxWidthDiffRate,
       maxHistoryLength,
       undoRedoStateChange,
@@ -43,27 +44,30 @@ class Editor {
     if (!root || !(root instanceof Element)) {
       throw new Error("Invalid root element.");
     }
+
     this.element = document.createElement("div");
     root.appendChild(this.element);
 
     const img = await load(url);
     this.imgWidth = img.width;
     this.imgHeight = img.height;
-    const width = Math.min(img.width / scaleRatio, window.innerWidth);
-    const height = Math.min(
-      img.height / scaleRatio,
-      (width / img.width) * img.height
-    );
+
+    const width = img.width / scaleRatio;
+    const height = img.height / scaleRatio;
+
+    const elWidth = Math.min(width, maxWidth);
+    const elHeight = Math.min(height, (elWidth / width) * height);
 
     this.element.style.position = "relative";
-    this.element.style.width = width + "px";
-    this.element.style.height = height + "px";
+    this.element.style.width = elWidth + "px";
+    this.element.style.height = elHeight + "px";
 
     this.imageBackdrop = new ImageBackdrop({
       root: this.element,
       scaleRatio,
       width,
       height,
+      maxWidth,
     });
     this.imageBackdrop.init();
     this.imageBackdrop.drawImage(img);
@@ -78,6 +82,7 @@ class Editor {
       rotate,
       minWidth,
       minSpeed,
+      maxWidth,
       maxWidthDiffRate,
       maxHistoryLength,
       undoRedoStateChange,
@@ -239,6 +244,7 @@ Editor.defaultOptions = {
   scaleRatio: window.devicePixelRatio || 1,
   scaleable: true,
   maxScale: 5,
+  maxWidth: window.innerWidth,
   onDrawStart: noop,
   onDrawing: noop,
   onDrawUp: noop,
