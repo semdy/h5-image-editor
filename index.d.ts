@@ -5,7 +5,7 @@ export interface IOptions
     SignatureIOptions,
     "resizeDebounceTime | exportPadding | exportMaxWidth | exportMaxHeight"
   > {
-  url: string;
+  url: string | File | Blob | HTMLImageElement;
   scaleable?: boolean;
   maxScale?: number;
 }
@@ -25,6 +25,7 @@ export default class ImageEditor {
   redo: () => void;
   canUndo: () => void;
   canRedo: () => void;
+  isEmpty: () => boolean;
   getResult: () => HTMLCanvasElement | undefined;
   destroy: () => void;
 }

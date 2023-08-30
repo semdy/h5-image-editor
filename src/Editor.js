@@ -4,6 +4,8 @@ import { load } from "./loader";
 import Finger from "./Finger";
 import Transform from "./transform";
 
+function noop() {}
+
 class Editor {
   constructor(options = {}) {
     this.options = { ...Editor.defaultOptions, ...options };
@@ -182,7 +184,13 @@ class Editor {
     return this.drawInstance.canUndo();
   }
 
-  canRedo() {}
+  canRedo() {
+    return this.drawInstance.canRedo();
+  }
+
+  isEmpty() {
+    return this.drawInstance.isEmpty();
+  }
 
   destroy() {
     this.drawInstance.destroy();
@@ -222,6 +230,9 @@ Editor.defaultOptions = {
   openSmooth: false,
   scaleable: true,
   maxScale: 5,
+  onDrawStart: noop,
+  onDrawing: noop,
+  onDrawUp: noop,
 };
 
 export default Editor;
