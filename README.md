@@ -80,6 +80,18 @@ query if can undo
 
 query if can redo
 
+#### restore
+
+parameters: [rotate] boolean
+
+reset translate、scale and origin
+
+#### setScale
+
+parameters: scale number
+
+set scale manually
+
 #### getResult
 
 get the cropped or origin canvas dom

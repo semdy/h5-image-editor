@@ -25,6 +25,8 @@ export default class ImageEditor {
   redo: () => void;
   canUndo: () => void;
   canRedo: () => void;
+  restore: (rotate?: boolean) => void;
+  setScale: (scale: number) => void;
   isEmpty: () => boolean;
   getResult: () => HTMLCanvasElement | undefined;
   destroy: () => void;
