@@ -24,7 +24,6 @@ class Editor {
     const {
       root,
       url,
-      scaleRatio,
       scaleable,
       maxScale,
       lineWidth,
@@ -41,6 +40,9 @@ class Editor {
       onDrawing,
       onDrawUp,
     } = this.options;
+
+    let { scaleRatio } = this.options;
+
     if (!root || !(root instanceof Element)) {
       throw new Error("Invalid root element.");
     }
@@ -51,6 +53,10 @@ class Editor {
     const img = await load(url);
     this.imgWidth = img.width;
     this.imgHeight = img.height;
+
+    if (maxWidth) {
+      scaleRatio = img.width / maxWidth;
+    }
 
     const width = img.width / scaleRatio;
     const height = img.height / scaleRatio;
