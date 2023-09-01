@@ -1154,9 +1154,10 @@ var Editor = /*#__PURE__*/function () {
               throw new Error("Invalid root element.");
             case 4:
               this.element = document.createElement("div");
-              _context.next = 7;
+              root.appendChild(this.element);
+              _context.next = 8;
               return load(url);
-            case 7:
+            case 8:
               img = _context.sent;
               this.imgWidth = img.width;
               this.imgHeight = img.height;
@@ -1170,7 +1171,6 @@ var Editor = /*#__PURE__*/function () {
               this.element.style.position = "relative";
               this.element.style.width = elWidth + "px";
               this.element.style.height = elHeight + "px";
-              root.appendChild(this.element);
               this.imageBackdrop = new src_ImageBackdrop({
                 root: this.element,
                 scaleRatio: scaleRatio,

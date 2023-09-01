@@ -48,6 +48,7 @@ class Editor {
     }
 
     this.element = document.createElement("div");
+    root.appendChild(this.element);
 
     const img = await load(url);
     this.imgWidth = img.width;
@@ -66,8 +67,6 @@ class Editor {
     this.element.style.position = "relative";
     this.element.style.width = elWidth + "px";
     this.element.style.height = elHeight + "px";
-
-    root.appendChild(this.element);
 
     this.imageBackdrop = new ImageBackdrop({
       root: this.element,
