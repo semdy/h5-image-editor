@@ -22,7 +22,8 @@ class ImageBackdrop extends Base {
   destroy() {
     super.destroy();
     try {
-      this.drawElement.parentElement.removeChild(this.drawElement);
+      const parent = this.drawElement.parentElement || document.body;
+      parent.removeChild(this.drawElement);
       this.drawElement = null;
     } catch (e) {}
   }

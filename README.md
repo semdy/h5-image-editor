@@ -25,6 +25,7 @@ new Editor.default({
   color: "#000", // draw color
   lineWidth: 8, // draw line width
   openSmooth: false, // if enable brush thickness effect
+  center: true, // if entered canvas in container
   rotate: 0, // export rotated image, available values: -90/90/-180/180
   minWidth: 2, // minimize linWidth
   minSpeed: 1.5, // minimize brush move speed

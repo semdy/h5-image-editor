@@ -48,7 +48,6 @@ class Editor {
     }
 
     this.element = document.createElement("div");
-    root.appendChild(this.element);
 
     const img = await load(url);
     this.imgWidth = img.width;
@@ -67,6 +66,8 @@ class Editor {
     this.element.style.position = "relative";
     this.element.style.width = elWidth + "px";
     this.element.style.height = elHeight + "px";
+
+    root.appendChild(this.element);
 
     this.imageBackdrop = new ImageBackdrop({
       root: this.element,
@@ -150,6 +151,22 @@ class Editor {
         },
       });
     }
+    this.setCenter();
+  }
+
+  setCenter() {
+    const { root, scaleable } = this.options;
+    if (scaleable) {
+      this.element.translateX =
+        (root.clientWidth - this.element.clientWidth) / 2;
+      this.element.translateY =
+        (root.clientHeight - this.element.clientHeight) / 2;
+    } else {
+      this.element.style.marginLeft =
+        (root.clientWidth - this.element.clientWidth) / 2 + "px";
+      this.element.style.marginTop =
+        (root.clientHeight - this.element.clientHeight) / 2 + "px";
+    }
   }
 
   setScale(size) {
@@ -159,7 +176,11 @@ class Editor {
   }
 
   restore(rotate = true) {
-    this.element.translateX = this.element.translateY = 0;
+    if (this.options.center) {
+      this.setCenter();
+    } else {
+      this.element.translateX = this.element.translateY = 0;
+    }
     !!rotate && (this.element.rotateZ = 0);
     this.element.scaleX = this.element.scaleY = 1;
     this.element.originX = this.element.originY = 0;
@@ -211,7 +232,8 @@ class Editor {
     this.imageBackdrop?.destroy();
     this.finger?.destroy();
     try {
-      this.element.parentElement.removeChild(this.element);
+      const parent = this.element.parentElement || document.body;
+      parent.removeChild(this.element);
       this.element = null;
     } catch (e) {}
   }
@@ -247,6 +269,7 @@ class Editor {
 Editor.defaultOptions = {
   root: null,
   openSmooth: false,
+  center: true,
   scaleRatio: window.devicePixelRatio || 1,
   scaleable: true,
   maxScale: 5,

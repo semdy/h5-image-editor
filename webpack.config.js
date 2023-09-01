@@ -45,7 +45,7 @@ const config = {
     },
   },
   devServer: {
-    port: 8080,
+    port: 8081,
     // client: {
     //   overlay: false,
     // },

@@ -7,6 +7,7 @@ export interface IOptions
   > {
   url: string | File | Blob | HTMLImageElement;
   scaleable?: boolean;
+  center?: boolean;
   maxScale?: number;
 }
 
