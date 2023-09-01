@@ -9,6 +9,7 @@ export interface IOptions
   scaleable?: boolean;
   center?: boolean;
   maxScale?: number;
+  resizeRatio?: number;
 }
 
 export type ConstructorOptions = IOptions & { root: HTMLElement | null };

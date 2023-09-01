@@ -30,6 +30,7 @@ new Editor.default({
   minWidth: 2, // minimize linWidth
   minSpeed: 1.5, // minimize brush move speed
   scaleRatio: window.devicePixelRatio, // canvas scale ratio
+  resizeRatio: 1 / window.devicePixelRatio, // resize canvas ratio
   scaleable: true, // canvas can pinch scaleable
   maxScale: 5, // max scacle by pinch
   maxWidth: window.innerWidth, // canvas element style max width

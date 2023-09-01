@@ -1141,11 +1141,11 @@ var Editor = /*#__PURE__*/function () {
     key: "init",
     value: function () {
       var _init = _asyncToGenerator( /*#__PURE__*/regenerator_default().mark(function _callee() {
-        var _this$options, root, url, scaleable, maxScale, lineWidth, color, openSmooth, rotate, minWidth, minSpeed, maxWidth, maxWidthDiffRate, maxHistoryLength, undoRedoStateChange, onDrawStart, onDrawing, onDrawUp, scaleRatio, img, width, height, elWidth, elHeight, drawElement;
+        var _this$options, root, url, scaleable, maxScale, resizeRatio, lineWidth, color, openSmooth, rotate, minWidth, minSpeed, maxWidth, maxWidthDiffRate, maxHistoryLength, undoRedoStateChange, onDrawStart, onDrawing, onDrawUp, scaleRatio, img, width, height, elWidth, elHeight, drawElement;
         return regenerator_default().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
-              _this$options = this.options, root = _this$options.root, url = _this$options.url, scaleable = _this$options.scaleable, maxScale = _this$options.maxScale, lineWidth = _this$options.lineWidth, color = _this$options.color, openSmooth = _this$options.openSmooth, rotate = _this$options.rotate, minWidth = _this$options.minWidth, minSpeed = _this$options.minSpeed, maxWidth = _this$options.maxWidth, maxWidthDiffRate = _this$options.maxWidthDiffRate, maxHistoryLength = _this$options.maxHistoryLength, undoRedoStateChange = _this$options.undoRedoStateChange, onDrawStart = _this$options.onDrawStart, onDrawing = _this$options.onDrawing, onDrawUp = _this$options.onDrawUp;
+              _this$options = this.options, root = _this$options.root, url = _this$options.url, scaleable = _this$options.scaleable, maxScale = _this$options.maxScale, resizeRatio = _this$options.resizeRatio, lineWidth = _this$options.lineWidth, color = _this$options.color, openSmooth = _this$options.openSmooth, rotate = _this$options.rotate, minWidth = _this$options.minWidth, minSpeed = _this$options.minSpeed, maxWidth = _this$options.maxWidth, maxWidthDiffRate = _this$options.maxWidthDiffRate, maxHistoryLength = _this$options.maxHistoryLength, undoRedoStateChange = _this$options.undoRedoStateChange, onDrawStart = _this$options.onDrawStart, onDrawing = _this$options.onDrawing, onDrawUp = _this$options.onDrawUp;
               scaleRatio = this.options.scaleRatio;
               if (!(!root || !(root instanceof Element))) {
                 _context.next = 4;
@@ -1159,13 +1159,13 @@ var Editor = /*#__PURE__*/function () {
               return load(url);
             case 8:
               img = _context.sent;
-              this.imgWidth = img.width;
-              this.imgHeight = img.height;
+              this.imgWidth = img.width * resizeRatio;
+              this.imgHeight = img.height * resizeRatio;
               if (maxWidth) {
-                scaleRatio = img.width / maxWidth;
+                scaleRatio = this.imgWidth / maxWidth;
               }
-              width = img.width / scaleRatio;
-              height = img.height / scaleRatio;
+              width = this.imgWidth / scaleRatio;
+              height = this.imgHeight / scaleRatio;
               elWidth = Math.min(width, maxWidth);
               elHeight = Math.min(height, elWidth / width * height);
               this.element.style.position = "relative";
@@ -1386,6 +1386,7 @@ Editor.defaultOptions = {
   openSmooth: false,
   center: true,
   scaleRatio: window.devicePixelRatio || 1,
+  resizeRatio: 1 / (window.devicePixelRatio || 1),
   scaleable: true,
   maxScale: 5,
   maxWidth: window.innerWidth,

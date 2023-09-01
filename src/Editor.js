@@ -26,6 +26,7 @@ class Editor {
       url,
       scaleable,
       maxScale,
+      resizeRatio,
       lineWidth,
       color,
       openSmooth,
@@ -51,15 +52,15 @@ class Editor {
     root.appendChild(this.element);
 
     const img = await load(url);
-    this.imgWidth = img.width;
-    this.imgHeight = img.height;
+    this.imgWidth = img.width * resizeRatio;
+    this.imgHeight = img.height * resizeRatio;
 
     if (maxWidth) {
-      scaleRatio = img.width / maxWidth;
+      scaleRatio = this.imgWidth / maxWidth;
     }
 
-    const width = img.width / scaleRatio;
-    const height = img.height / scaleRatio;
+    const width = this.imgWidth / scaleRatio;
+    const height = this.imgHeight / scaleRatio;
 
     const elWidth = Math.min(width, maxWidth);
     const elHeight = Math.min(height, (elWidth / width) * height);
@@ -270,6 +271,7 @@ Editor.defaultOptions = {
   openSmooth: false,
   center: true,
   scaleRatio: window.devicePixelRatio || 1,
+  resizeRatio: 1 / (window.devicePixelRatio || 1),
   scaleable: true,
   maxScale: 5,
   maxWidth: window.innerWidth,
