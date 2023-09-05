@@ -26,6 +26,7 @@ class Editor {
       url,
       scaleable,
       maxScale,
+      center,
       resizeRatio,
       lineWidth,
       color,
@@ -151,7 +152,9 @@ class Editor {
         },
       });
     }
-    this.setCenter();
+    if (center) {
+      this.setCenter();
+    }
   }
 
   setCenter() {
