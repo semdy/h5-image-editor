@@ -2082,10 +2082,10 @@ graceful-fs@^4.1.2, graceful-fs@^4.2.4, graceful-fs@^4.2.6:
   resolved "https://registry.npmmirror.com/graceful-fs/-/graceful-fs-4.2.11.tgz#4183e4e8bf08bb6e05bbb2f7d2e0c8f712ca40e3"
   integrity sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==
 
-h5-signature@^0.3.4:
-  version "0.3.4"
-  resolved "https://registry.yarnpkg.com/h5-signature/-/h5-signature-0.3.4.tgz#a8e321678e1d87a92f99eb608db5c7d2b3f6f393"
-  integrity sha512-dtlQ3oxes2P1UeVnXP5X7OdaGhWRxibHG1dUWi07/zTY63eTFGodtjegOxyXg2RCJjuE8X6ah0fTVZJfaUsTKw==
+h5-signature@^0.3.5:
+  version "0.3.5"
+  resolved "https://registry.yarnpkg.com/h5-signature/-/h5-signature-0.3.5.tgz#110172d9c1f98ebda1a69d0c3ac9b1bedfcbed20"
+  integrity sha512-SVxb0HdpgKM0Zq3MVTX6ul9KSvYsp9E68sf89b8uGgLH84mLOXf3xxrfITXHSes07QcRZ4GfFnvsKTh8aXv3KQ==
   dependencies:
     "@babel/runtime" "^7.16.0"
 
