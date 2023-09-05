@@ -779,8 +779,8 @@ var Finger = /*#__PURE__*/function () {
       var _this = this;
       if (!evt.touches) return;
       this.now = Date.now();
-      this.x1 = evt.touches[0].pageX;
-      this.y1 = evt.touches[0].pageY;
+      this.x1 = evt.touches[0].clientX;
+      this.y1 = evt.touches[0].clientY;
       this.delta = this.now - (this.last || this.now);
       if (this.preTapPosition.x !== null) {
         this.isDoubleTap = this.delta > 0 && this.delta <= 250 && Math.abs(this.preTapPosition.x - this.x1) < 30 && Math.abs(this.preTapPosition.y - this.y1) < 30;
@@ -794,8 +794,8 @@ var Finger = /*#__PURE__*/function () {
         this._cancelLongTap();
         this._cancelSingleTap();
         var v = {
-          x: evt.touches[1].pageX - this.x1,
-          y: evt.touches[1].pageY - this.y1
+          x: evt.touches[1].clientX - this.x1,
+          y: evt.touches[1].clientY - this.y1
         };
         preV.x = v.x;
         preV.y = v.y;
@@ -811,19 +811,19 @@ var Finger = /*#__PURE__*/function () {
     value: function handleMove(evt) {
       var preV = this.preV,
         len = evt.touches.length,
-        currentX = evt.touches[0].pageX,
-        currentY = evt.touches[0].pageY;
+        currentX = evt.touches[0].clientX,
+        currentY = evt.touches[0].clientY;
       this.isDoubleTap = false;
       if (len > 1) {
         var v = {
-          x: evt.touches[1].pageX - currentX,
-          y: evt.touches[1].pageY - currentY
+          x: evt.touches[1].clientX - currentX,
+          y: evt.touches[1].clientY - currentY
         };
         if (preV.x !== null) {
           if (this.pinchStartLen > 0) {
             var center = {
-              x: (evt.touches[1].pageX + currentX) / 2,
-              y: (evt.touches[1].pageY + currentY) / 2
+              x: (evt.touches[1].clientX + currentX) / 2,
+              y: (evt.touches[1].clientY + currentY) / 2
             };
             var scale = getLen(v) / this.pinchStartLen;
             this._emitEvent("onPinch", evt, {
